@@ -92,8 +92,15 @@ sem.model.fits = function(modelList) {
       Fmat = Fmat[-model$na.action, match(names(fixef(model)), colnames(Fmat))]
       
       # Get variance of fixed effects by multiplying coefficients by design matrix
-      varF = var(as.vector(fixef(model) %*% t(Fmat)))
- 
+      #varF = var(as.vector(fixef(model) %*% t(Fmat)))
+     if(is.null(model$na.action)== T){
+       Fmat = Fmat[, match(names(fixef(model)), colnames(Fmat))]
+    }else{
+      Fmat = Fmat[-model$na.action, match(names(fixef(model)), colnames(Fmat))]
+      
+    }
+    
+    
       # Get variance of random effects
       if(any(class(try(getVarCov(model), silent = TRUE)) == "try-error")) {
       
